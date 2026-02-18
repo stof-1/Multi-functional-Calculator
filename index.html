@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-functional Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="ico.ico">
+</head>
+<body>
+    <div class="container">
+        <h1>Multi-functional Calculator</h1>
+
+        <nav class="top-nav">
+            <button class="nav-button active" onclick="showSection('basic-calculator')">Scientific Calculator</button>
+            <button class="nav-button" onclick="showSection('length-mass-converters')">Length & Mass</button>
+            <button class="nav-button" onclick="showSection('volume-converters')">Volume (General & Liquid)</button>
+            <button class="nav-button" onclick="showSection('area-time-speed-converters')">Area, Time & Speed</button>
+            <button class="nav-button" onclick="showSection('digital-energy-pressure-angle-converters')">Digital, Energy, Pressure & Angle</button>
+            <button class="nav-button" onclick="showSection('currency-temp-converter')">Currency and Temp</button>
+        </nav>
+
+        <div id="basic-calculator" class="content-section active">
+            <div class="calculator-section">
+                <h2>Scientific Calculator</h2>
+                <div class="calculator-layout-container">
+                    <div id="memoryList" class="memory-list-display"></div>
+                    <div class="calculator">
+                        <div class="display-container">
+                            <input type="text" id="display">
+                            <button class="backspace-btn operator" onclick="backspace()">⌫</button>
+                        </div>
+                        <div id="radDegMode" class="rad-deg-indicator" onclick="toggleRadDeg()">DEG</div>
+                        <div id="roundingMode" class="rounding-indicator" onclick="toggleRounding()">ROUND</div>
+                        <div class="buttons">
+                            <button class="clear" onclick="clearDisplay()">C</button>
+                            <button class="operator" onclick="appendToDisplay('(')">(</button>
+                            <button class="operator" onclick="appendToDisplay(')')">)</button>
+                            <button class="operator" onclick="appendToDisplay('%')">%</button>
+                            <button class="operator" onclick="toggleRadDeg()">Rad/Deg</button>
+                            <button class="operator" onclick="scientificFunc('abs')">|x|</button>
+                            
+                            <button class="mem-func" onclick="showMemoryList()">M</button>
+                            <button class="mem-func" onclick="mc()">MC</button>
+                            <button class="mem-func" onclick="ms()">MS</button>
+                            <button class="operator" onclick="scientificFunc('sqrt')">√</button>
+                            <button class="operator" onclick="scientificFunc('cbrt')">³√x</button>
+                            <button class="operator" onclick="scientificFunc('yroot')">y√x</button>
+                            
+                            <button onclick="appendToDisplay('7')">7</button>
+                            <button onclick="appendToDisplay('8')">8</button>
+                            <button onclick="appendToDisplay('9')">9</button>
+                            <button class="operator operator-divide" onclick="appendToDisplay('/')">/</button>
+                            <button class="operator" onclick="scientificFunc('ln')">ln</button>
+                            <button class="operator" onclick="scientificFunc('cos')">cos</button>
+                            
+                            <button onclick="appendToDisplay('4')">4</button>
+                            <button onclick="appendToDisplay('5')">5</button>
+                            <button onclick="appendToDisplay('6')">6</button>
+                            <button class="operator operator-multiply" onclick="appendToDisplay('*')">x</button>
+                            <button class="operator" onclick="scientificFunc('log')">log</button>
+                            <button class="operator" onclick="scientificFunc('sin')">sin</button>
+                            
+                            <button onclick="appendToDisplay('1')">1</button>
+                            <button onclick="appendToDisplay('2')">2</button>
+                            <button onclick="appendToDisplay('3')">3</button>
+                            <button class="operator operator-subtract" onclick="appendToDisplay('-')">–</button>
+                            <button class="operator" onclick="scientificFunc('pow')">xʸ</button>
+                            <button class="operator" onclick="scientificFunc('tan')">tan</button>
+                            
+                            <button onclick="appendToDisplay('0')">0</button>
+                            <button onclick="appendToDisplay('.')">.</button>
+                            <button class="operator" onclick="toggleSign()">+/-</button>
+                            <button class="operator operator-add" onclick="appendToDisplay('+')">+</button>
+                            <button class="constant" onclick="appendToDisplay('Math.PI')">π</button>
+                            <button class="constant" onclick="appendToDisplay('Math.E')">e</button>
+
+                            <button class="equal operator-equal" onclick="calculate()">=</button>
+                            <button class="operator" onclick="scientificFunc('inverse')">1/x</button>
+                            <button class="operator" onclick="scientificFunc('factorial')">n!</button>
+                            <button class="operator" onclick="scientificFunc('exp')">exp</button>
+                            <button class="operator" onclick="scientificFunc('square')">x²</button>
+                            <button class="operator" onclick="scientificFunc('cube')">x³</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="length-mass-converters" class="content-section">
+            <div class="converter-section">
+                <h2>Length Converter</h2>
+                <div class="converter">
+                    <h3>Length</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromLengthAmount" placeholder="Amount" value="1">
+                        <select id="lengthUnit1">
+                            <option value="nm">Nanometers</option>
+                            <option value="um">Micrometers</option>
+                            <option value="mm">Millimeters</option>
+                            <option value="cm">Centimeters</option>
+                            <option value="in">Inches</option>
+                            <option value="ft">Feet</option>
+                            <option value="yd">Yards</option>
+                            <option value="m">Meters</option>
+                            <option value="km">Kilometers</option>
+                            <option value="mi">Miles</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toLengthAmount" placeholder="Converted Amount" readonly>
+                        <select id="lengthUnit2">
+                            <option value="nm">Nanometers</option>
+                            <option value="um">Micrometers</option>
+                            <option value="mm">Millimeters</option>
+                            <option value="cm">Centimeters</option>
+                            <option value="in">Inches</option>
+                            <option value="ft">Feet</option>
+                            <option value="yd">Yards</option>
+                            <option value="m">Meters</option>
+                            <option value="km">Kilometers</option>
+                            <option value="mi">Miles</option>
+                        </select>
+                    </div>
+                    <p id="lengthError" style="color: red;"></p>
+                </div>
+            </div>
+
+            <div class="converter-section" style="margin-top: 30px;">
+                <h2>Mass Converter</h2>
+                <div class="converter">
+                    <h3>Mass</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromMassAmount" placeholder="Amount" value="1">
+                        <select id="massUnit1">
+                            <option value="pg">Picograms</option>
+                            <option value="ng">Nanograms</option>
+                            <option value="ug">Micrograms</option>
+                            <option value="mg">Milligrams</option>
+                            <option value="cg">Centigrams</option>
+                            <option value="dg">Decigrams</option>
+                            <option value="g">Grams</option>
+                            <option value="dag">Decagrams</option>
+                            <option value="hg">Hectograms</option>
+                            <option value="kg">Kilograms</option>
+                            <option value="q">Quintals (metric)</option>
+                            <option value="t">Tons (metric)</option>
+                            <option value="oz">Ounces (oz)</option>
+                            <option value="lb">Pounds (lb)</option>
+                            <option value="st">Stone (st)</option>
+                            <option value="short_ton">US Tons (short ton)</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toMassAmount" placeholder="Converted Amount" readonly>
+                        <select id="massUnit2">
+                            <option value="pg">Picograms</option>
+                            <option value="ng">Nanograms</option>
+                            <option value="ug">Micrograms</option>
+                            <option value="mg">Milligrams</option>
+                            <option value="cg">Centigrams</option>
+                            <option value="dg">Decigrams</option>
+                            <option value="g">Grams</option>
+                            <option value="dag">Decagrams</option>
+                            <option value="hg">Hectograms</option>
+                            <option value="kg">Kilograms</option>
+                            <option value="q">Quintals (metric)</option>
+                            <option value="t">Tons (metric)</option>
+                            <option value="oz">Ounces (oz)</option>
+                            <option value="lb">Pounds (lb)</option>
+                            <option value="st">Stone (st)</option>
+                            <option value="short_ton">US Tons (short ton)</option>
+                        </select>
+                    </div>
+                    <p id="massError" style="color: red;"></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="volume-converters" class="content-section">
+            <div class="converter-section">
+                <h2>Liquid Volume Converter</h2>
+                <div class="converter">
+                    <h3>Liquid Volume</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromLiquidVolumeAmount" placeholder="Amount" value="1">
+                        <select id="liquidVolumeUnit1">
+                            <option value="milliliter">Milliliters (ml)</option>
+                            <option value="cubic_centimeter">Cubic Centimeters (cm³)</option>
+                            <option value="centiliter">Centiliters (cl)</option>
+                            <option value="deciliter">Deciliters (dl)</option>
+                            <option value="liter">Liters (L)</option>
+                            <option value="gallon">Gallons (US gal)</option>
+                            <option value="kiloliter">Kiloliters (kl)</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toLiquidVolumeAmount" placeholder="Converted Amount" readonly>
+                        <select id="liquidVolumeUnit2">
+                            <option value="milliliter">Milliliters (ml)</option>
+                            <option value="cubic_centimeter">Cubic Centimeters (cm³)</option>
+                            <option value="centiliter">Centiliters (cl)</option>
+                            <option value="deciliter">Deciliters (dl)</option>
+                            <option value="liter">Liters (L)</option>
+                            <option value="gallon">Gallons (US gal)</option>
+                            <option value="kiloliter">Kiloliters (kl)</option>
+                        </select>
+                    </div>
+                    <p id="liquidVolumeError" style="color: red;"></p>
+                </div>
+            </div>
+
+            <div class="converter-section" style="margin-top: 30px;">
+                <h2>General Volume Converter</h2>
+                <div class="converter">
+                    <h3>Volume</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromGeneralVolumeAmount" placeholder="Amount" value="1">
+                        <select id="generalVolumeUnit1">
+                            <option value="cubic_millimeter">Cubic Millimeters (mm³)</option>
+                            <option value="cubic_centimeter">Cubic Centimeters (cm³)</option>
+                            <option value="cubic_meter">Cubic Meters (m³)</option>
+                            <option value="cubic_kilometer">Cubic Kilometers (km³)</option>
+                            <option value="cubic_inch">Cubic Inches (in³)</option>
+                            <option value="cubic_foot">Cubic Feet (ft³)</option>
+                            <option value="cubic_yard">Cubic Yards (yd³)</option>
+                            <option value="liter">Liters (L)</option>                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toGeneralVolumeAmount" placeholder="Converted Amount" readonly>
+                        <select id="generalVolumeUnit2">
+                            <option value="cubic_millimeter">Cubic Millimeters (mm³)</option>
+                            <option value="cubic_centimeter">Cubic Centimeters (cm³)</option>
+                            <option value="cubic_meter">Cubic Meters (m³)</option>
+                            <option value="cubic_kilometer">Cubic Kilometers (km³)</option>
+                            <option value="cubic_inch">Cubic Inches (in³)</option>
+                            <option value="cubic_foot">Cubic Feet (ft³)</option>
+                            <option value="cubic_yard">Cubic Yards (yd³)</option>
+                            <option value="liter">Liters (L)</option>                        </select>
+                    </div>
+                    <p id="generalVolumeError" style="color: red;"></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="area-time-speed-converters" class="content-section">
+            <div class="converter-section">
+                <h2>Area Converter</h2>
+                <div class="converter">
+                    <h3>Area</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromAreaAmount" placeholder="Amount" value="1">
+                        <select id="areaUnit1">
+                            <option value="sq_mm">Square Millimeters (mm²)</option>
+                            <option value="sq_cm">Square Centimeters (cm²)</option>
+                            <option value="sq_m">Square Meters (m²)</option>
+                            <option value="sq_km">Square Kilometers (km²)</option>
+                            <option value="sq_in">Square Inches (in²)</option>
+                            <option value="sq_ft">Square Feet (ft²)</option>
+                            <option value="sq_yd">Square Yards (yd²)</option>
+                            <option value="acre">Acres</option>
+                            <option value="hectare">Hectares</option>
+                            <option value="sq_mi">Square Miles (mi²)</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toAreaAmount" placeholder="Converted Amount" readonly>
+                        <select id="areaUnit2">
+                            <option value="sq_mm">Square Millimeters (mm²)</option>
+                            <option value="sq_cm">Square Centimeters (cm²)</option>
+                            <option value="sq_m">Square Meters (m²)</option>
+                            <option value="sq_km">Square Kilometers (km²)</option>
+                            <option value="sq_in">Square Inches (in²)</option>
+                            <option value="sq_ft">Square Feet (ft²)</option>
+                            <option value="sq_yd">Square Yards (yd²)</option>
+                            <option value="acre">Acres</option>
+                            <option value="hectare">Hectares</option>
+                            <option value="sq_mi">Square Miles (mi²)</option>
+                        </select>
+                    </div>
+                    <p id="areaError" style="color: red;"></p>
+                </div>
+            </div>
+
+            <div class="converter-section" style="margin-top: 30px;">
+                <h2>Time Converter</h2>
+                <div class="converter">
+                    <h3>Time</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromTimeAmount" placeholder="Amount" value="1">
+                        <select id="timeUnit1">
+                            <option value="nanosecond">Nanoseconds</option>
+                            <option value="microsecond">Microseconds</option>
+                            <option value="millisecond">Milliseconds</option>
+                            <option value="second">Seconds</option>
+                            <option value="minute">Minutes</option>
+                            <option value="hour">Hours</option>
+                            <option value="day">Days</option>
+                            <option value="week">Weeks</option>
+                            <option value="month">Months (approx)</option>
+                            <option value="year">Years (approx)</option>
+                            <option value="decade">Decades</option>
+                            <option value="century">Centuries</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toTimeAmount" placeholder="Converted Amount" readonly>
+                        <select id="timeUnit2">
+                            <option value="nanosecond">Nanoseconds</option>
+                            <option value="microsecond">Microseconds</option>
+                            <option value="millisecond">Milliseconds</option>
+                            <option value="second">Seconds</option>
+                            <option value="minute">Minutes</option>
+                            <option value="hour">Hours</option>
+                            <option value="day">Days</option>
+                            <option value="week">Weeks</option>
+                            <option value="month">Months (approx)</option>
+                            <option value="year">Years (approx)</option>
+                            <option value="decade">Decades</option>
+                            <option value="century">Centuries</option>
+                        </select>
+                    </div>
+                    <p id="timeError" style="color: red;"></p>
+                </div>
+            </div>
+
+            <div class="converter-section" style="margin-top: 30px;">
+                <h2>Speed Converter</h2>
+                <div class="converter">
+                    <h3>Speed</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromSpeedAmount" placeholder="Amount" value="1">
+                        <select id="speedUnit1">
+                            <option value="mps">Meters/second (m/s)</option>
+                            <option value="kmph">Kilometers/hour (km/h)</option>
+                            <option value="mph">Miles/hour (mph)</option>
+                            <option value="knot">Knots (kn)</option>
+                            <option value="mach">Mach (at STP)</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toSpeedAmount" placeholder="Converted Amount" readonly>
+                        <select id="speedUnit2">
+                            <option value="mps">Meters/second (m/s)</option>
+                            <option value="kmph">Kilometers/hour (km/h)</option>
+                            <option value="mph">Miles/hour (mph)</option>
+                            <option value="knot">Knots (kn)</option>
+                            <option value="mach">Mach (at STP)</option>
+                        </select>
+                    </div>
+                    <p id="speedError" style="color: red;"></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="digital-energy-pressure-angle-converters" class="content-section">
+            <div class="converter-section">
+                <h2>Digital Storage Converter</h2>
+                <div class="converter">
+                    <h3>Digital Storage</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromDigitalStorageAmount" placeholder="Amount" value="1">
+                        <select id="digitalStorageUnit1">
+                            <option value="bit">Bits (b)</option>
+                            <option value="byte">Bytes (B)</option>
+                            <option value="kilobit">Kilobits (Kb)</option>
+                            <option value="kilobyte">Kilobytes (KB)</option>
+                            <option value="megabit">Megabits (Mb)</option>
+                            <option value="megabyte">Megabytes (MB)</option>
+                            <option value="gigabit">Gigabits (Gb)</option>
+                            <option value="gigabyte">Gigabytes (GB)</option>
+                            <option value="terabit">Terabits (Tb)</option>
+                            <option value="terabyte">Terabytes (TB)</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toDigitalStorageAmount" placeholder="Converted Amount" readonly>
+                        <select id="digitalStorageUnit2">
+                            <option value="bit">Bits (b)</option>
+                            <option value="byte">Bytes (B)</option>
+                            <option value="kilobit">Kilobits (Kb)</option>
+                            <option value="kilobyte">Kilobytes (KB)</option>
+                            <option value="megabit">Megabits (Mb)</option>
+                            <option value="megabyte">Megabytes (MB)</option>
+                            <option value="gigabit">Gigabits (Gb)</option>
+                            <option value="gigabyte">Gigabytes (GB)</option>
+                            <option value="terabit">Terabits (Tb)</option>
+                            <option value="terabyte">Terabytes (TB)</option>
+                        </select>
+                    </div>
+                    <p id="digitalStorageError" style="color: red;"></p>
+                </div>
+            </div>
+
+            <div class="converter-section" style="margin-top: 30px;">
+                <h2>Energy Converter</h2>
+                <div class="converter">
+                    <h3>Energy</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromEnergyAmount" placeholder="Amount" value="1">
+                        <select id="energyUnit1">
+                            <option value="joule">Joules (J)</option>
+                            <option value="kilojoule">Kilojoules (kJ)</option>
+                            <option value="calorie">Calories (cal)</option>
+                            <option value="kcal">Kilocalories (kcal)</option>
+                            <option value="wh">Watt-hours (Wh)</option>
+                            <option value="kwh">Kilowatt-hours (kWh)</option>
+                            <option value="electronvolt">Electronvolts (eV)</option>
+                            <option value="btu">British Thermal Units (BTU)</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toEnergyAmount" placeholder="Converted Amount" readonly>
+                        <select id="energyUnit2">
+                            <option value="joule">Joules (J)</option>
+                            <option value="kilojoule">Kilojoules (kJ)</option>
+                            <option value="calorie">Calories (cal)</option>
+                            <option value="kcal">Kilocalories (kcal)</option>
+                            <option value="wh">Watt-hours (Wh)</option>
+                            <option value="kwh">Kilowatt-hours (kWh)</option>
+                            <option value="electronvolt">Electronvolts (eV)</option>
+                            <option value="btu">British Thermal Units (BTU)</option>
+                        </select>
+                    </div>
+                    <p id="energyError" style="color: red;"></p>
+                </div>
+            </div>
+
+            <div class="converter-section" style="margin-top: 30px;">
+                <h2>Pressure Converter</h2>
+                <div class="converter">
+                    <h3>Pressure</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromPressureAmount" placeholder="Amount" value="1">
+                        <select id="pressureUnit1">
+                            <option value="pascal">Pascals (Pa)</option>
+                            <option value="kilopascal">Kilopascals (kPa)</option>
+                            <option value="psi">Pounds per Square Inch (psi)</option>
+                            <option value="bar">Bar (bar)</option>
+                            <option value="atm">Atmospheres (atm)</option>
+                            <option value="torr">Torr (Torr)</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toPressureAmount" placeholder="Converted Amount" readonly>
+                        <select id="pressureUnit2">
+                            <option value="pascal">Pascals (Pa)</option>
+                            <option value="kilopascal">Kilopascals (kPa)</option>
+                            <option value="psi">Pounds per Square Inch (psi)</option>
+                            <option value="bar">Bar (bar)</option>
+                            <option value="atm">Atmospheres (atm)</option>
+                            <option value="torr">Torr (Torr)</option>
+                        </select>
+                    </div>
+                    <p id="pressureError" style="color: red;"></p>
+                </div>
+            </div>
+
+            <div class="converter-section" style="margin-top: 30px;">
+                <h2>Angle Converter</h2>
+                <div class="converter">
+                    <h3>Angle</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromAngleAmount" placeholder="Amount" value="1">
+                        <select id="angleUnit1">
+                            <option value="degree">Degrees (°)</option>
+                            <option value="radian">Radians (rad)</option>
+                            <option value="gradian">Gradians (grad)</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toAngleAmount" placeholder="Converted Amount" readonly>
+                        <select id="angleUnit2">
+                            <option value="degree">Degrees (°)</option>
+                            <option value="radian">Radians (rad)</option>
+                            <option value="gradian">Gradians (grad)</option>
+                        </select>
+                    </div>
+                    <p id="angleError" style="color: red;"></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="currency-temp-converter" class="content-section">
+            <div class="currency-section">
+                <h2>Currency Exchange</h2>
+                <div class="currency-row">
+                    <input type="number" id="fromCurrencyAmount" placeholder="Amount" value="1">
+                    <select id="fromCurrency"></select>
+                </div>
+                <div class="currency-row">
+                                        <input type="number" id="toCurrencyAmount" placeholder="Converted Amount" readonly>
+                                        <select id="toCurrency"></select>                </div>
+                <p id="currencyError" style="color: red;"></p>
+            </div>
+
+            <div class="converter-section" style="margin-top: 30px;">
+                <h2>Temperature Converter</h2>
+                <div class="converter">
+                    <h3>Temperature</h3>
+                    <div class="converter-row">
+                        <input type="number" id="fromTempAmount" placeholder="Amount" value="0">
+                        <select id="tempUnit1">
+                            <option value="celsius">Celsius (°C)</option>
+                            <option value="fahrenheit">Fahrenheit (°F)</option>
+                            <option value="kelvin">Kelvin (K)</option>
+                            <option value="rankine">Rankine (°R)</option>
+                            <option value="reaumur">Réaumur (°Ré)</option>
+                        </select>
+                    </div>
+                    <div class="converter-row">
+                        <input type="number" id="toTempAmount" placeholder="Converted Amount" readonly>
+                        <select id="tempUnit2">
+                            <option value="celsius">Celsius (°C)</option>
+                            <option value="fahrenheit">Fahrenheit (°F)</option>
+                            <option value="kelvin">Kelvin (K)</option>
+                            <option value="rankine">Rankine (°R)</option>
+                            <option value="reaumur">Réaumur (°Ré)</option>
+                        </select>
+                    </div>
+                    <p id="tempError" style="color: red;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

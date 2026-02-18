@@ -1,0 +1,453 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-image: url('3.png'), url('C.jpg'); /* New background images */
+    background-position: left top, right top; /* Position them left and right */
+    background-size: auto 100%; /* Cover full height, scale width */
+    background-repeat: no-repeat; /* No repetition */
+    background-color: #1a1a2e; /* Fallback dark background */
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #e0e0e0; /* Light text for dark background */
+}
+
+.container {
+    background-color: #16213e; /* Slightly lighter dark for container */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* More pronounced shadow */
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+h1 {
+    text-align: center;
+    color: #e0e0e0;
+    margin-bottom: 25px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+h2, h3 {
+    text-align: center;
+    color: #e0e0e0;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* Navigation Bar Styles */
+.top-nav {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #0f3460; /* Darker border */
+    padding-bottom: 15px;
+    gap: 15px; /* Space between buttons */
+}
+
+.nav-button {
+    background-color: #0f3460; /* Darker button background */
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #e0e0e0;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.nav-button:hover {
+    background-color: #1a1a2e; /* Even darker on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.nav-button.active {
+    background-color: #e94560; /* Accent color for active state */
+    color: white;
+    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4); /* Accent shadow */
+    transform: translateY(-1px);
+}
+
+.nav-button.active:hover {
+    background-color: #d13a52; /* Slightly darker accent on hover */
+}
+
+/* Content Sections (for toggling visibility) */
+.content-section {
+    display: none; /* Hidden by default */
+    border: 1px solid #0f3460; /* Darker border */
+    padding: 25px;
+    border-radius: 10px;
+    background-color: #0e172a; /* Darkest background for sections */
+    margin-top: 20px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); /* Inner shadow for depth */
+}
+
+.content-section.active {
+    display: block; /* Shown when active */
+}
+
+/* Basic Calculator Styles */
+.calculator-layout-container {
+    display: flex;
+    justify-content: center; /* Center the entire layout container horizontally */
+    align-items: flex-start; /* Align items to the top */
+    max-width: fit-content; /* Only take as much width as its content */
+    margin: 0 auto; /* Center the container on the page */
+    position: relative; /* Needed for absolute positioning of memoryList */
+    overflow: hidden; /* Crucial to hide the memory list when it's transformed off-screen left */
+}
+
+.calculator {
+    flex-shrink: 0; /* Prevent calculator from shrinking */
+    display: flex;
+    flex-direction: column;
+    background-color: #16213e; /* Match container background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    transition: margin-left 0.3s ease-in-out; /* Transition for pushing effect */
+    margin-left: 0; /* Default position */
+}
+
+.calculator.active-memory-list {
+    margin-left: 150px; /* Push calculator to the right by memory list width */
+}
+
+#radDegMode {
+    text-align: right;
+    font-size: 0.9em;
+    color: #888;
+    margin-bottom: 5px;
+    padding-right: 5px;
+}
+
+#memoryList {
+    position: absolute; /* Re-add absolute positioning */
+    left: 0;
+    top: 0;
+    width: 150px; /* Fixed width */
+    height: 100%; /* Fill height of calculator */
+    background-color: #0e172a; /* Dark background */
+    border-right: 1px solid #0f3460; /* Border on the right side of the list */
+    padding: 10px; /* Restore padding */
+    overflow-y: auto; /* Scroll if too many items */
+    font-size: 0.9em;
+    color: #e0e0e0;
+    transform: translateX(calc(-100% - 10px)); /* Initially off-screen to the left + 10px more */
+    transition: transform 0.3s ease-in-out; /* Transition for transform */
+    z-index: 10; /* Ensure it's on top */
+}
+
+#memoryList.active {
+    transform: translateX(-10px); /* Slide into view, shifted 10px left */
+}
+
+#memoryList h3 {
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #e94560;
+}
+
+#memoryList p {
+    margin: 2px 0;
+    text-align: left;
+}
+
+#display {
+    width: 100%;
+    padding: 18px;
+    font-size: 2.2em;
+    text-align: right;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #0f3460; /* Dark blue display */
+    color: #e0e0e0;
+    box-sizing: border-box;
+    font-weight: 300;
+    letter-spacing: 1px;
+    -webkit-appearance: none; /* Remove default styling for iOS */
+    appearance: none;
+}
+
+.calculator .buttons {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* Changed to 6 columns for scientific calculator */
+    grid-gap: 12px;
+}
+
+.calculator button {
+    padding: 15px 5px; /* Adjusted padding */
+    font-size: 1.3em; /* Adjusted font size */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #3f4e6e; /* Default for numbers - lighter blue-gray */
+    color: #e0e0e0;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    font-weight: 400;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    aspect-ratio: 1 / 1; /* Make buttons square */
+    width: 100%; /* Ensure they fill grid cell */
+    box-sizing: border-box; /* Include padding/border in width */
+}
+
+.calculator button.scientific-func {
+    background-color: #28a745; /* Green for scientific functions */
+}
+
+.calculator button.mem-func {
+    background-color: #17a2b8; /* Teal blue for memory functions */
+}
+
+.calculator button.constant {
+    background-color: #ffc107; /* Orange for constants */
+}
+
+/* Specific colors for arithmetic operators */
+.calculator button.operator-add {
+    background-color: #007bff; /* Blue */
+}
+
+.calculator button.operator-subtract {
+    background-color: #007bff; /* Blue */
+}
+
+.calculator button.operator-multiply {
+    background-color: #007bff; /* Blue */
+}
+
+.calculator button.operator-divide {
+    background-color: #007bff; /* Blue */
+}
+
+.calculator button.operator-equal {
+    background-color: #e94560; /* Accent red for equal button */
+}
+
+/* Converter Styles */
+.converter {
+    margin-bottom: 25px;
+    padding: 20px;
+    border: 1px solid #0f3460;
+    border-radius: 10px;
+    background-color: #1a1a2e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.converter h3 {
+    color: #e94560; /* Accent color for converter titles */
+    margin-bottom: 15px;
+}
+
+.converter input[type="number"] {
+    flex-grow: 1; /* Make inputs expand */
+    padding: 12px;
+    border: 1px solid #0f3460;
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: #0e172a;
+    color: #e0e0e0;
+    box-sizing: border-box;
+}
+
+.converter select {
+    padding: 12px;
+    border: 1px solid #0f3460;
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: #0e172a;
+    color: #e0e0e0;
+    box-sizing: border-box;
+    -webkit-appearance: none; /* Remove default select arrow on some browsers */
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #0f3460 50%),
+                      linear-gradient(135deg, #0f3460 50%, transparent 50%);
+    background-position: calc(100% - 15px) calc(1em + 2px),
+                      calc(100% - 10px) calc(1em + 2px);
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.converter select:focus,
+.converter input[type="number"]:focus {
+    border-color: #e94560;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
+}
+
+.converter-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/* Currency Section Styles */
+.currency-row, .converter-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.currency-temp-converter .converter-section {
+    margin-top: 30px; /* Add space between currency and temp converters */
+}
+
+/* Add margin-top to subsequent converter-sections within a content-section */
+.content-section > .converter-section + .converter-section {
+    margin-top: 30px;
+}
+
+
+
+.currency-section input[type="number"],
+.currency-section select {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #0f3460;
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: #0e172a;
+    color: #e0e0e0;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #0f3460 50%),
+                      linear-gradient(135deg, #0f3460 50%, transparent 50%);
+    background-position: calc(100% - 15px) calc(1em + 2px),
+                      calc(100% - 10px) calc(1em + 2px);
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.currency-section select:focus,
+.currency-section input[type="number"]:focus {
+    border-color: #e94560;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
+}
+
+.display-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between display and button */
+    margin-bottom: 15px; /* Moved from #display */
+}
+
+#display {
+    flex-grow: 1; /* Allows display to take available space */
+    width: auto; /* Remove fixed width */
+    padding: 18px;
+    font-size: 2.6em; /* Increased size */
+    line-height: 1; /* Normalize line height */
+    text-align: right;
+    border: none;
+    border-radius: 8px;
+    background-color: #0f3460; /* Dark blue display */
+    color: #e0e0e0;
+    box-sizing: border-box;
+    font-weight: 300;
+    letter-spacing: 1px;
+    -webkit-appearance: none; /* Remove default styling for iOS */
+    appearance: none;
+}
+
+.backspace-btn {
+    background-color: #e94560; /* Accent color for delete button */
+    color: white;
+    height: 72px; /* Explicitly set height based on #display's approximate rendered height */
+    width: 72px; /* Make it square */
+    font-size: 2.1em; /* Adjust font size to center icon vertically */
+    line-height: 1; /* Normalize line height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px; /* Match other buttons */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box; /* Include padding/border in width/height if added */
+    padding: 0; /* Remove padding as height is explicit */
+    transform: translateY(-8px); /* Nudge button up by an additional 4px */
+}
+
+.backspace-btn:hover {
+    background-color: #d13a52; /* Darker accent on hover */
+    transform: translateY(-1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+        gap: 20px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .top-nav {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .nav-button {
+        flex-grow: 1;
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+
+    .calculator {
+        padding: 15px;
+    }
+
+    #display {
+        font-size: 1.8em;
+        padding: 15px;
+    }
+
+    .calculator button {
+        font-size: 1.1em;
+        padding: 15px 5px;
+    }
+
+    .converter, .currency-section {
+        padding: 15px;
+    }
+
+    .converter-row, .currency-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .converter input[type="number"],
+    .converter select,
+    .currency-section input[type="number"],
+    .currency-section select {
+        width: 100%;
+    }
+
+    .flag-icon {
+        align-self: flex-start; /* Align flag to the left in column layout */
+    }
+}
+
